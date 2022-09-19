@@ -1,0 +1,68 @@
+{
+  "name": "@kanwa/di",
+  "description": "Dependency injection simplified",
+  "version": "0.0.0",
+  "private": false,
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "author": "wintpann",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wintpann/kanwa.di.git"
+  },
+  "homepage": "https://github.com/wintpann/kanwa.di",
+  "bugs": {
+    "url": "https://github.com/wintpann/kanwa.di/issues",
+    "email": "vvintpann@gmail.com"
+  },
+  "license": "MIT",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@rollup/plugin-babel": "^5.3.1",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "np": "^7.6.1",
+    "prettier": "^2.7.1",
+    "regenerator-runtime": "^0.13.9",
+    "rollup": "^2.70.1",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "scripts": {
+    "lint": "prettier --write src --ignore-unknown",
+    "dev": "react-app-rewired start",
+    "build": "npx rollup --config rollup.config.js && cp index.d.ts dist/",
+    "test": "jest",
+    "release": "rm -rf dist && yarn lint && yarn build && npx np"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ]
+  },
+  "keywords": [
+    "dependency injection"
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {}
+}
