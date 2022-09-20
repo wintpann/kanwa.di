@@ -1,56 +1,6 @@
 import { di } from '../index';
 
 
-type FirstService = {
-  first: () => void;
-};
-
-type SecondService = {
-  second: () => void;
-};
-
-type ThirdService = {
-  third: () => void;
-};
-
-type Ref = {
-  firstService: FirstService | null;
-  secondService: SecondService | null;
-  thirdService: ThirdService | null;
-}
-
-const createFirstService = di.record(
-  (): FirstService => ({
-    first: () => {},
-  }),
-);
-
-
-const createSecondService = di.record(
-  di.key<FirstService>()('firstService'),
-  (first): SecondService => ({
-    second: () => {
-      first.first();
-    },
-  }),
-);
-
-const createThirdService = di.record(
-  di.key<SecondService>()('secondService'),
-  di.key<FirstService>()('firstService'),
-  (second): ThirdService => ({
-    third: () => {
-      second.second();
-    }
-  })
-)
-
-const firstService = createFirstService();
-const secondService = createSecondService({firstService})
-const thirdService = createThirdService({firstService, secondService})
-
-
-
 
 
 
