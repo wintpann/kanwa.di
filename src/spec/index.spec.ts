@@ -1,4 +1,5 @@
-import { di } from '../../index';
+import { di as diJS } from '../lib/index';
+import { DI } from '../../index';
 import {
   FirstService,
   ThirdService,
@@ -6,6 +7,8 @@ import {
   emptyServiceRef,
   expectInstancesShallowMatch,
 } from './test-setup';
+
+const di = diJS as unknown as DI;
 
 describe('di', () => {
   test('should resolve correct without dependencies', () => {
@@ -221,5 +224,6 @@ describe('di', () => {
     expectInstancesShallowMatch(serviceRef.altered.firstService);
     expectInstancesShallowMatch(serviceRef.secondService);
     expectInstancesShallowMatch(serviceRef.thirdService);
+    expect(firstServiceAltered.instance !== firstService.instance).toEqual(true);
   });
 });

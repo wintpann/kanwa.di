@@ -1,7 +1,8 @@
 interface DIRecordAlterable<R, D, K = void> {
   (dependencies: D): R;
 
-  key: K;
+  instance?: R;
+  alterKey: K;
 }
 
 type EmptyToVoid<T> = T extends Record<string, never> ? void : T;
@@ -9,6 +10,7 @@ type EmptyToVoid<T> = T extends Record<string, never> ? void : T;
 interface DIRecord<R, D> {
   (dependencies: D): R;
 
+  instance?: R;
   alterBy<K extends string>(key: K): DIRecordAlterable<R, D, K>;
 }
 
