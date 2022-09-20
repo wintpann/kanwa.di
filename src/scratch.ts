@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { di } from '../index';
 
 type Logger = {
@@ -23,24 +21,24 @@ type UserService = {
 };
 
 {
-  const logger = di.combine(
+  const logger = di.record(
     (): Logger => ({
       log: (message: string) => console.log(message),
     }),
   );
 
-  const httpClient = di.combine(
+  const httpClient = di.record(
     di.key<string>()('apiURL'),
     logger,
     (apiURL, logger): HTTPClient => ({
       request: <T>(data: T, ms: number) => {
         logger.log(`making request to ${apiURL}`);
-        return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+        return new Promise((resolve) => setTimeout(() => resolve(data as any), ms));
       },
     }),
   );
 
-  const userApi = di.combine(
+  const userApi = di.record(
     httpClient,
     logger,
     (httpClient, logger): UserAPI => ({
@@ -51,7 +49,7 @@ type UserService = {
     }),
   );
 
-  const userService = di.combine(
+  const userService = di.record(
     userApi,
     logger,
     (userApi, logger): UserService => ({
@@ -66,24 +64,24 @@ type UserService = {
 }
 
 {
-  const createLogger = di.combine(
+  const createLogger = di.record(
     (): Logger => ({
       log: (message: string) => console.log(message),
     }),
   );
 
-  const createHttpClient = di.combine(
+  const createHttpClient = di.record(
     di.key<string>()('apiURL'),
     di.key<Logger>()('logger'),
     (apiURL, logger): HTTPClient => ({
       request: <T>(data: T, ms: number) => {
         logger.log(`making request to ${apiURL}`);
-        return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+        return new Promise((resolve) => setTimeout(() => resolve(data as any), ms));
       },
     }),
   );
 
-  const createUserApi = di.combine(
+  const createUserApi = di.record(
     di.key<HTTPClient>()('httpClient'),
     di.key<Logger>()('logger'),
     (httpClient, logger): UserAPI => ({
@@ -94,7 +92,7 @@ type UserService = {
     }),
   );
 
-  const createUserService = di.combine(
+  const createUserService = di.record(
     di.key<UserAPI>()('userApi'),
     di.key<Logger>()('logger'),
     (userApi, logger): UserService => ({
@@ -113,41 +111,41 @@ type UserService = {
 
 {
   const logger = di
-    .combine(
+    .record(
       (): Logger => ({
         log: (message: string) => console.log(message),
       }),
     )
-    .shift('logger');
+    .alterBy('logger');
 
   const httpClient = di
-    .combine(
+    .record(
       di.key<string>()('apiURL'),
       logger,
       (apiURL, logger): HTTPClient => ({
         request: <T>(data: T, ms: number) => {
           logger.log(`making request to ${apiURL}`);
-          return new Promise((resolve) => setTimeout(() => resolve(data), ms));
+          return new Promise((resolve) => setTimeout(() => resolve(data as any), ms));
         },
       }),
     )
-    .shift('httpClient');
+    .alterBy('httpClient');
 
   const userApi = di
-    .combine(
+    .record(
       httpClient,
       logger,
       (httpClient, logger): UserAPI => ({
         getCurrentUser: () => {
           logger.log('requesting user');
-          httpClient.request({ name: 'John' }, 10);
+          return httpClient.request({ name: 'John' }, 10);
         },
       }),
     )
-    .shift('userApi');
+    .alterBy('userApi');
 
   const userService = di
-    .combine(
+    .record(
       userApi,
       logger,
       (userApi, logger): UserService => ({
@@ -157,7 +155,7 @@ type UserService = {
         },
       }),
     )
-    .shift('userService');
+    .alterBy('userService');
 
   const fakeLogger: Logger = {
     log: (message: string) => console.error(message),
