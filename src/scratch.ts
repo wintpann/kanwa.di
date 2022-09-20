@@ -1,17 +1,5 @@
 import { di } from '../index';
 
-
-
-
-
-
-
-
-
-
-
-
-
 //
 // type Logger = {
 //   log: (message: string) => void;

@@ -18,7 +18,7 @@ export type ServiceRef = {
     firstService: FirstService[];
     secondService: SecondService[];
     thirdService: ThirdService[];
-  }
+  };
 };
 
 export const emptyServiceRef = (): ServiceRef => ({
@@ -29,7 +29,7 @@ export const emptyServiceRef = (): ServiceRef => ({
     firstService: [],
     secondService: [],
     thirdService: [],
-  }
+  },
 });
 
 export const expectInstancesShallowMatch = <T>(instances: T[]) => {
