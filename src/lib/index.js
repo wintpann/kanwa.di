@@ -8,20 +8,20 @@ const record = (...composites) => {
   const project = array.last(composites);
 
   const resolve = (record) => {
-    if (resolve.instance === undefined) {
+    if (!Object.hasOwn(resolve, 'instance')) {
       resolve.instance = project(
         ...dependencies.map((dependency) => {
           const isRecord = typeof dependency === 'function';
 
           if (isRecord) {
             const isAltered =
-              dependency.alterKey !== undefined && record[dependency.alterKey] !== undefined;
+              dependency.alterKey !== undefined && Object.hasOwn(record, dependency.alterKey);
 
             if (isAltered) {
               return record[dependency.alterKey];
             }
 
-            if (dependency.instance === undefined) {
+            if (!Object.hasOwn(dependency, 'instance')) {
               dependency.instance = dependency(record);
             }
             return dependency.instance;
