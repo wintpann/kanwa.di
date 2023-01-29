@@ -1,3 +1,6 @@
+# DEPRECATED
+package moved to react-mobx-forge
+
 # @kanwa/di
 
 ## CHANGELOG
